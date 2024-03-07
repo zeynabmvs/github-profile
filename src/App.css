@@ -2,9 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+
+@font-face {
+  font-family: BeVietnamPro;
+  src: url("../public/fonts/BeVietnamPro-Bold.ttf");
+}
+
+@font-face {
+  font-family: BeVietnamPro;
+  src: url("../public/fonts/BeVietnamPro-Regular.ttf");
+}
+
+@layer base {
+  * {
+    font-family: BeVietnamPro;
+  }
 }

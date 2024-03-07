@@ -7,7 +7,9 @@ function App() {
   return (
     <>
       <div className="card bg-red-500 border">
-        <h1 className="text-xxl text-blue-300">This is a header</h1>
+        <h1 className="text-xxl text-blue-300">
+          This is a header
+        </h1>
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
