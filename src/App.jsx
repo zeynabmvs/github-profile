@@ -6,8 +6,8 @@ function App() {
 
   return (
     <>
-      <div className="card bg-red-500 border">
-        <h1 className="text-xxl text-blue-300">
+      <div className="card">
+        <h1 className="">
           This is a header
         </h1>
         <button onClick={() => setCount((count) => count + 1)}>
