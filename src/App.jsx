@@ -51,11 +51,11 @@ function SearchIcon() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle cx="11" cy="11" r="7" stroke="#97A3B6" stroke-width="2" />
+      <circle cx="11" cy="11" r="7" stroke="#97A3B6" strokeWidth="2" />
       <path
         d="M20 20L17 17"
         stroke="#97A3B6"
-        stroke-width="2"
+        strokeWidth="2"
         strokeLinecap="round"
       />
     </svg>
@@ -185,7 +185,12 @@ function Profile() {
 }
 
 function SearchForm() {
-  return "";
+  return (
+    <form>
+      <SearchIcon />
+      <input type="text" placeholder="username"></input>
+    </form>
+  );
 }
 
 function Header() {
@@ -200,6 +205,8 @@ function Header() {
 }
 
 function App() {
+  const [searchQuery, setSearchQuery] = useState("");
+
   return (
     <>
       <Header />
