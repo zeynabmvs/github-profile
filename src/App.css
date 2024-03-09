@@ -4,16 +4,24 @@
 
 @font-face {
   font-family: BeVietnamPro;
+  font-weight: 700;
   src: url("/fonts/BeVietnamPro-Bold.ttf");
 }
 
 @font-face {
   font-family: BeVietnamPro;
+  font-weight: 400;
   src: url("/fonts/BeVietnamPro-Regular.ttf");
 }
 
 @layer base {
   * {
     font-family: BeVietnamPro;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-xl flex flex-col p-5 bg-gradient-to-r from-darkgray to-darkblue text-slate-200;
   }
 }
