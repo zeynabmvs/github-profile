@@ -5,7 +5,7 @@ import { user_data } from "./data.js";
 function Profile() {
   return (
     <div className="profile -mt-11">
-      <div className="flex items-end gap-12">
+      <div className="flex items-end gap-12 pb-5">
         <div className="bg-gray p-2 rounded-2xl">
           <img
             src={user_data.avatar_url}
@@ -28,7 +28,7 @@ function Profile() {
           </div>
         </div>
       </div>
-      <h2 className="capitalize text-xl text-slate-100">{user_data.login}</h2>
+      <h2 className="capitalize text-2base pb-2 text-slate-100">{user_data.login}</h2>
       <span className="text-slate-100">{user_data.bio}</span>
     </div>
   );
