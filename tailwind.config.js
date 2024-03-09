@@ -2,6 +2,9 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
+    container: {
+      center: true,
+    },
     extend: {
       fontSize: {
         "2base": "2rem",
@@ -21,7 +24,6 @@ export default {
         },
       },
     },
-    
   },
   plugins: [],
 };

@@ -2,15 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @font-face {
   font-family: BeVietnamPro;
-  src: url("../public/fonts/BeVietnamPro-Bold.ttf");
+  src: url("/fonts/BeVietnamPro-Bold.ttf");
 }
 
 @font-face {
   font-family: BeVietnamPro;
-  src: url("../public/fonts/BeVietnamPro-Regular.ttf");
+  src: url("/fonts/BeVietnamPro-Regular.ttf");
 }
 
 @layer base {
