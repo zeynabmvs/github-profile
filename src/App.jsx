@@ -136,11 +136,18 @@ function Card(props) {
 
 function Repos() {
   // return four latest repos
-  const repos = user_repos;
+  const repos = user_repos.slice(-4);
 
   const cards = repos.map((repo, index) => <Card repo={repo} key={index} />);
 
-  return <div className="cards grid grid-cols-2 gap-8">{cards}</div>;
+  return (
+    <div className="flex flex-col items-center">
+      <div className="cards grid grid-cols-2 gap-8 mb-12">{cards}</div>
+      <a href="#" className="text-base text-slate-200 text-center mb-20">
+        View all repositories
+      </a>
+    </div>
+  );
 }
 
 function Profile() {
