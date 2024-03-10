@@ -41,11 +41,9 @@ function Card({ repo }) {
   );
 }
 
-function Repos({ userData }) {
+function Repos({ userRepos }) {
   // return four latest repos
-  console.log(user_repos);
-
-  const repos = user_repos.slice(-4);
+  const repos = userRepos.slice(-4);
 
   const cards = repos.map((repo, index) => <Card repo={repo} key={index} />);
 
@@ -117,45 +115,50 @@ function Header() {
 }
 
 function App() {
-  // const [seachQuery, setSetSearchQuery] = useState("");
+  const [seachQuery, setSetSearchQuery] = useState("github");
 
   // Toggle between these lines to use local data or API
-  const [userData, setUserData] = useState();
-  // const [userData, setUserData] = useState(user_data);
+  // const [userData, setUserData] = useState();
+  const [userData, setUserData] = useState(user_data);
+  const [userRepos, setUserRepos] = useState(user_repos);
 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        // Fetch data from the API
-        const response = await fetch("https://api.github.com/users/github");
+  console.log(seachQuery);
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
-        }
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       const userDataApi = "https://api.github.com/users/" + {searchQuery}
 
-        // Parse the json response
-        const jsonData = await response.json();
+  //       // Fetch data from the API
+  //       const response = await fetch(userDataApi);
+  //       console.log(response)
+  //       if (!response.ok) {
+  //         throw new Error("Failed to fetch data");
+  //       }
 
-        // Update the state with fetched data
-        setUserData(jsonData);
-        setIsLoading(false);
-      } catch (error) {
-        // Handle Errors
-        setError(error.message);
-        setIsLoading(false);
-      }
-    }
+  //       // Parse the json response
+  //       const jsonData = await response.json();
 
-    // Call the fetch data function
-    fetchData();
-  }, []); // Empty dependency array means this effect runs once after the initial render
+  //       // Update the state with fetched data
+  //       setUserData(jsonData);
+  //       setIsLoading(false);
+  //     } catch (error) {
+  //       // Handle Errors
+  //       setError(error.message);
+  //       setIsLoading(false);
+  //     }
+  //   }
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  //   // Call the fetch data function
+  //   fetchData();
+  // }, []); // Empty dependency array means this effect runs once after the initial render
+
+  // if (isLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
   if (!userData) {
     return <div>No data available</div>;
@@ -166,7 +169,7 @@ function App() {
       <Header />
       <div className="container">
         <Profile userData={userData} />
-        <Repos userData={userData} />
+        <Repos userRepos={userRepos} />
       </div>
     </>
   );
