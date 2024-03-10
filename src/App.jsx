@@ -41,7 +41,9 @@ function Card({ repo }) {
   );
 }
 
-function Repos({ userRepos }) {
+function Repos(username) {
+  const [userRepos, setUserRepos] = useState(user_repos);
+
   // return four latest repos
   const repos = userRepos.slice(-4);
 
@@ -60,7 +62,51 @@ function Repos({ userRepos }) {
   );
 }
 
-function Profile({ userData }) {
+function Profile(username) {
+  // Toggle between these lines to use local data or API
+  // const [userData, setUserData] = useState();
+  const [userData, setUserData] = useState(user_data);
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       const userDataApi = "https://api.github.com/users/" + {username}
+
+  //       // Fetch data from the API
+  //       const response = await fetch(userDataApi);
+  //       console.log(response)
+  //       if (!response.ok) {
+  //         throw new Error("Failed to fetch data");
+  //       }
+
+  //       // Parse the json response
+  //       const jsonData = await response.json();
+
+  //       // Update the state with fetched data
+  //       setUserData(jsonData);
+  //       setIsLoading(false);
+  //     } catch (error) {
+  //       // Handle Errors
+  //       setError(error.message);
+  //       setIsLoading(false);
+  //     }
+  //   }
+
+  //   // Call the fetch data function
+  //   fetchData();
+  // }, []); // Empty dependency array means this effect runs once after the initial render
+
+  // if (isLoading) {
+  //   return <div>Loading...</div>;
+  // }
+
+  if (!userData) {
+    return <div>No data available</div>;
+  }
+
   return (
     <div className="profile -mt-11 pb-9">
       <div className="flex items-end gap-12 pb-5">
@@ -117,59 +163,14 @@ function Header() {
 function App() {
   const [seachQuery, setSetSearchQuery] = useState("github");
 
-  // Toggle between these lines to use local data or API
-  // const [userData, setUserData] = useState();
-  const [userData, setUserData] = useState(user_data);
-  const [userRepos, setUserRepos] = useState(user_repos);
-
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
   console.log(seachQuery);
-
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     try {
-  //       const userDataApi = "https://api.github.com/users/" + {searchQuery}
-
-  //       // Fetch data from the API
-  //       const response = await fetch(userDataApi);
-  //       console.log(response)
-  //       if (!response.ok) {
-  //         throw new Error("Failed to fetch data");
-  //       }
-
-  //       // Parse the json response
-  //       const jsonData = await response.json();
-
-  //       // Update the state with fetched data
-  //       setUserData(jsonData);
-  //       setIsLoading(false);
-  //     } catch (error) {
-  //       // Handle Errors
-  //       setError(error.message);
-  //       setIsLoading(false);
-  //     }
-  //   }
-
-  //   // Call the fetch data function
-  //   fetchData();
-  // }, []); // Empty dependency array means this effect runs once after the initial render
-
-  // if (isLoading) {
-  //   return <div>Loading...</div>;
-  // }
-
-  if (!userData) {
-    return <div>No data available</div>;
-  }
-
+  
   return (
     <>
       <Header />
       <div className="container">
-        <Profile userData={userData} />
-        <Repos userRepos={userRepos} />
+        <Profile username={seachQuery} />
+        <Repos username={seachQuery} />
       </div>
     </>
   );
