@@ -43,7 +43,6 @@ function Card({ repo }) {
 
 function Repos({ username }) {
   const [userRepos, setUserRepos] = useState();
-
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -105,13 +104,15 @@ function Repos({ username }) {
   const repos = userRepos.slice(-4);
 
   const cards = repos.map((repo, index) => <Card repo={repo} key={index} />);
+  const user_repos_url = "https://github.com/" + username;
 
   return (
     <div className="flex flex-col items-center">
       <div className="cards grid grid-cols-2 gap-8 mb-12">{cards}</div>
       <a
-        href="#"
+        href={user_repos_url}
         className="text-base text-slate-200 text-center mb-20 hover:underline"
+        target="_blank"
       >
         View all repositories
       </a>
@@ -331,7 +332,7 @@ function Header({ username, onSearchQueryChange, onSearchSubmit }) {
 }
 
 function App() {
-  const [seachQuery, setSearchQuery] = useState("");
+  const [seachQuery, setSearchQuery] = useState("github");
   const handleSearchSubmit = () => {
     console.log("search submitted", seachQuery);
   };
