@@ -1,5 +1,5 @@
 export const user_data = {
-    "login": "github",
+    "login": "TTgithub",
     "id": 9919,
     "node_id": "MDEyOk9yZ2FuaXphdGlvbjk5MTk=",
     "avatar_url": "https://avatars.githubusercontent.com/u/9919?v=4",
@@ -27,8 +27,8 @@ export const user_data = {
     "twitter_username": null,
     "public_repos": 489,
     "public_gists": 0,
-    "followers": 35832,
-    "following": 0,
+    "followers": 3000,
+    "following": 100,
     "created_at": "2008-05-11T04:37:31Z",
     "updated_at": "2022-11-29T19:44:55Z"
   }
