@@ -20,6 +20,7 @@ function Card({ repo }) {
       <a
         href={repo.html_url}
         className="text-xl pb- text-slate-100 hover:underline"
+        target="_blank"
       >
         {repo.name}
       </a>
