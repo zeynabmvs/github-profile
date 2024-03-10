@@ -1,8 +1,178 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { user_data } from "./data.js";
 import { user_repos } from "./data.js";
 import { formatDistanceToNow } from "date-fns";
+
+function Card({ repo }) {
+  const license = repo.license && (
+    <div className="flex gap-2 text-slate-200">
+      <ChieldIcon /> {repo.license.spdx_id}
+    </div>
+  );
+
+  const updatedTimeAgo = formatDistanceToNow(new Date(repo.updated_at), {
+    addSuffix: true,
+  });
+
+  return (
+    <div className="card">
+      <a
+        href={repo.html_url}
+        className="text-xl pb- text-slate-100 hover:underline"
+      >
+        {repo.name}
+      </a>
+      <p className="pb-5 text-slate-200">{repo.description}</p>
+
+      <div className="flex flex-row gap-4 items-center ">
+        {license}
+        <div className="flex gap-2 text-slate-200">
+          <NestingIcon />
+          {repo.forks}
+        </div>
+        <div className="flex gap-2 text-slate-200">
+          <StarIcon />
+          {repo.stargazers_count}
+        </div>
+        <time className="text-xs text-slate-200">updated {updatedTimeAgo}</time>
+      </div>
+    </div>
+  );
+}
+
+function Repos({ userData }) {
+  // return four latest repos
+  console.log(user_repos);
+
+  const repos = user_repos.slice(-4);
+
+  const cards = repos.map((repo, index) => <Card repo={repo} key={index} />);
+
+  return (
+    <div className="flex flex-col items-center">
+      <div className="cards grid grid-cols-2 gap-8 mb-12">{cards}</div>
+      <a
+        href="#"
+        className="text-base text-slate-200 text-center mb-20 hover:underline"
+      >
+        View all repositories
+      </a>
+    </div>
+  );
+}
+
+function Profile({ userData }) {
+  return (
+    <div className="profile -mt-11 pb-9">
+      <div className="flex items-end gap-12 pb-5">
+        <div className="bg-gray p-2 rounded-2xl">
+          <img
+            src={userData.avatar_url}
+            alt={userData.name}
+            className="rounded-xl w-[104px] h-[104px]"
+          />
+        </div>
+        <div className="flex pb-3 gap-5">
+          <div className="bg-darkgray rounded-xl text-slate-300 h-[52px] py-2 px-9 flex items-center justify-center">
+            Followers<span className="block h-9 w-px mx-9 bg-slate-200"></span>
+            <span className="text-slate-100">{userData.followers}</span>
+          </div>
+          <div className="bg-darkgray rounded-xl text-slate-300 h-[52px] py-2 px-9 flex items-center justify-center">
+            Following<span className="block h-9 w-px mx-9 bg-slate-200"></span>
+            <span className="text-slate-100">{userData.following}</span>
+          </div>
+          <div className="bg-darkgray rounded-xl text-slate-300 h-[52px] py-2 px-9 flex items-center justify-center">
+            Location<span className="block h-9 w-px mx-9 bg-slate-200"></span>
+            <span className="text-slate-100">{userData.location}</span>
+          </div>
+        </div>
+      </div>
+      <h2 className="capitalize text-2base pb-2 text-slate-100">
+        {userData.login}
+      </h2>
+      <p className="text-slate-200 font-normal	">{userData.bio}</p>
+    </div>
+  );
+}
+
+function SearchForm() {
+  return (
+    <form>
+      <SearchIcon />
+      <input type="text" placeholder="username"></input>
+    </form>
+  );
+}
+
+function Header() {
+  return (
+    <div
+      id="header"
+      className="h-[240px] w-full bg-center bg-cover bg-no-repeat bg-[url('/hero-image-github-profile.png')]"
+    >
+      <SearchForm />
+    </div>
+  );
+}
+
+function App() {
+  // const [seachQuery, setSetSearchQuery] = useState("");
+
+  // Toggle between these lines to use local data or API
+  const [userData, setUserData] = useState();
+  // const [userData, setUserData] = useState(user_data);
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        // Fetch data from the API
+        const response = await fetch("https://api.github.com/users/github");
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+
+        // Parse the json response
+        const jsonData = await response.json();
+
+        // Update the state with fetched data
+        setUserData(jsonData);
+        setIsLoading(false);
+      } catch (error) {
+        // Handle Errors
+        setError(error.message);
+        setIsLoading(false);
+      }
+    }
+
+    // Call the fetch data function
+    fetchData();
+  }, []); // Empty dependency array means this effect runs once after the initial render
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!userData) {
+    return <div>No data available</div>;
+  }
+
+  return (
+    <>
+      <Header />
+      <div className="container">
+        <Profile userData={userData} />
+        <Repos userData={userData} />
+      </div>
+    </>
+  );
+}
+
+export default App;
 
 function NestingIcon() {
   return (
@@ -101,121 +271,3 @@ function StarIcon() {
     </svg>
   );
 }
-function Card(props) {
-  const repo = props.repo;
-  const license = repo.license && (
-    <div className="flex gap-2">
-      <ChieldIcon /> {repo.license.spdx_id}
-    </div>
-  );
-
-  const updatedTimeAgo = formatDistanceToNow(new Date(repo.updated_at), {
-    addSuffix: true,
-  });
-
-  return (
-    <div className="card">
-      <h3 className="text-xl pb- text-slate-100">{repo.name}</h3>
-      <p className="pb-5">{repo.description}</p>
-
-      <div className="flex flex-row gap-4 items-center">
-        {license}
-        <div className="flex gap-2">
-          <NestingIcon />
-          {repo.forks}
-        </div>
-        <div className="flex gap-2">
-          <StarIcon />
-          {repo.stargazers_count}
-        </div>
-        <time className="text-xs">updated {updatedTimeAgo}</time>
-      </div>
-    </div>
-  );
-}
-
-function Repos() {
-  // return four latest repos
-  const repos = user_repos.slice(-4);
-
-  const cards = repos.map((repo, index) => <Card repo={repo} key={index} />);
-
-  return (
-    <div className="flex flex-col items-center">
-      <div className="cards grid grid-cols-2 gap-8 mb-12">{cards}</div>
-      <a href="#" className="text-base text-slate-200 text-center mb-20">
-        View all repositories
-      </a>
-    </div>
-  );
-}
-
-function Profile() {
-  return (
-    <div className="profile -mt-11 pb-9">
-      <div className="flex items-end gap-12 pb-5">
-        <div className="bg-gray p-2 rounded-2xl">
-          <img
-            src={user_data.avatar_url}
-            alt=""
-            className="rounded-xl w-[104px] h-[104px]"
-          />
-        </div>
-        <div className="flex pb-3 gap-5">
-          <div className="bg-darkgray rounded-xl text-slate-300 h-[52px] py-2 px-9 flex items-center justify-center">
-            Followers<span className="block h-9 w-px mx-9 bg-slate-200"></span>
-            <span className="text-slate-100">{user_data.followers}</span>
-          </div>
-          <div className="bg-darkgray rounded-xl text-slate-300 h-[52px] py-2 px-9 flex items-center justify-center">
-            Following<span className="block h-9 w-px mx-9 bg-slate-200"></span>
-            <span className="text-slate-100">{user_data.following}</span>
-          </div>
-          <div className="bg-darkgray rounded-xl text-slate-300 h-[52px] py-2 px-9 flex items-center justify-center">
-            Location<span className="block h-9 w-px mx-9 bg-slate-200"></span>
-            <span className="text-slate-100">{user_data.location}</span>
-          </div>
-        </div>
-      </div>
-      <h2 className="capitalize text-2base pb-2 text-slate-100">
-        {user_data.login}
-      </h2>
-      <span className="text-slate-200 font-normal	">{user_data.bio}</span>
-    </div>
-  );
-}
-
-function SearchForm() {
-  return (
-    <form>
-      <SearchIcon />
-      <input type="text" placeholder="username"></input>
-    </form>
-  );
-}
-
-function Header() {
-  return (
-    <div
-      id="header"
-      className="h-[240px] w-full bg-center bg-cover bg-no-repeat bg-[url('/hero-image-github-profile.png')]"
-    >
-      <SearchForm />
-    </div>
-  );
-}
-
-function App() {
-  const [searchQuery, setSearchQuery] = useState("");
-
-  return (
-    <>
-      <Header />
-      <div className="container">
-        <Profile />
-        <Repos />
-      </div>
-    </>
-  );
-}
-
-export default App;

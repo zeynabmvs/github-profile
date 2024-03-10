@@ -1,2 +1,4 @@
 - remove unused font files
-- 
+- set fornt weight correctly
+- add loading animation
+- add no data content

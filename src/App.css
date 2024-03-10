@@ -17,6 +17,7 @@
 @layer base {
   * {
     font-family: BeVietnamPro;
+    color: white;
   }
 
   @media (min-width: 1536px) {
@@ -28,6 +29,6 @@
 
 @layer components {
   .card {
-    @apply rounded-xl flex flex-col p-5 bg-gradient-to-r from-darkgray to-darkblue text-slate-200;
+    @apply rounded-xl p-5 bg-gradient-to-r from-darkgray to-darkblue ;
   }
 }
