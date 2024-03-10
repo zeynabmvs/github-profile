@@ -208,32 +208,53 @@ function Profile({ username }) {
   );
 }
 
+function SearchResults({ foundUsers }) {
+  let foundUsersHtml = null;
+
+  if (foundUsers) {
+    const foundUsersList = foundUsers.map((foundUser, index) => (
+      <li key={index} className="flex pb-2 gap-2">
+        <a href={foundUser.html_url} target="_blank">
+          <img
+            src={foundUser.avatar_url}
+            className="w-[72px] h-[72px] rounded-xl"
+          />
+        </a>
+        <div className="flex items-center">
+          <a
+            href={foundUser.html_url}
+            target="_blank"
+            className="text-slate-100"
+          >
+            {foundUser.login}
+          </a>
+          <p className="text-slate-200">{foundUser.bio}</p>
+        </div>
+      </li>
+    ));
+
+    foundUsersHtml = (
+      <div className="items bg-darkgray p-2 rounded-xl absolute z-100 w-[484px]">
+        <ul>{foundUsersList}</ul>
+      </div>
+    );
+  }
+
+  return foundUsersHtml;
+}
+
 function Header({ username, onSearchQueryChange, onSearchSubmit }) {
   const apiSearchUser = "https://api.github.com/search/users?q=" + username;
   const [foundUsers, setFoundUsers] = useState(found_users.items);
-  console.log(foundUsers);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onSearchSubmit();
   };
 
-  const foundUsersHtml = foundUsers.map((foundUser, index) => (
-    <li key={index} className="flex pb-2 gap-2">
-      <a href={foundUser.html_url} target="_blank">
-        <img
-          src={foundUser.avatar_url}
-          className="w-[72px] h-[72px] rounded-xl"
-        />
-      </a>
-      <div className="flex items-center">
-        <a href={foundUser.html_url} target="_blank" className="text-slate-100">
-          {foundUser.login}
-        </a>
-        <p className="text-slate-200">{foundUser.bio}</p>
-      </div>
-    </li>
-  ));
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+  };
 
   return (
     <div
@@ -253,16 +274,14 @@ function Header({ username, onSearchQueryChange, onSearchSubmit }) {
             className="bg-gray text-slate-100 placeholder-slate-300 p-4 pl-12 rounded-xl w-[484px] before:content-[{{}}]"
           ></input>
         </form>
-        <div className="items bg-darkgray p-2 rounded-xl absolute z-100 w-[484px]">
-          <ul>{foundUsersHtml}</ul>
-        </div>
+        <SearchResults foundUsers={foundUsers} />
       </div>
     </div>
   );
 }
 
 function App() {
-  const [seachQuery, setSetSearchQuery] = useState("");
+  const [seachQuery, setSearchQuery] = useState("");
   const handleSearchSubmit = () => {
     console.log("search submitted", seachQuery);
   };
@@ -272,7 +291,7 @@ function App() {
     <>
       <Header
         username={seachQuery}
-        onSearchQueryChange={setSetSearchQuery}
+        onSearchQueryChange={setSearchQuery}
         onSearchSubmit={handleSearchSubmit}
       />
       <div className="container">
