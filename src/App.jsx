@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import { user_data, found_users, user_repos } from "./data.js";
 import { formatDistanceToNow } from "date-fns";
+import debounce from "lodash/debounce";
 
 function Card({ repo }) {
   const license = repo.license && (
@@ -54,7 +55,7 @@ function Repos({ username }) {
         window.location.hostname === "localhost" ||
         window.location.hostname === "127.0.0.1"
       ) {
-        console.log("Running on localhost, loading local data.");
+        // console.log("Running on localhost, loading local data.");
         setUserRepos(user_repos); // Load data from local file
         setIsLoading(false);
         return;
@@ -131,7 +132,7 @@ function Profile({ username }) {
         window.location.hostname === "localhost" ||
         window.location.hostname === "127.0.0.1"
       ) {
-        console.log("Running on localhost, loading local data.");
+        // console.log("Running on localhost, loading local data.");
         setUserData(user_data); // Load data from local file
         setIsLoading(false);
         return;
@@ -142,7 +143,7 @@ function Profile({ username }) {
 
         // Fetch data from the API
         const response = await fetch(userDataApi);
-        console.log(response);
+        // console.log(response);
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
@@ -208,34 +209,39 @@ function Profile({ username }) {
   );
 }
 
-function SearchResults({ foundUsers }) {
+function SearchResults({ foundUsers, isLoading }) {
   let foundUsersHtml = null;
+  let searchResult = null;
 
   if (foundUsers) {
-    const foundUsersList = foundUsers.map((foundUser, index) => (
-      <li key={index} className="flex pb-2 gap-2">
-        <a href={foundUser.html_url} target="_blank">
-          <img
-            src={foundUser.avatar_url}
-            className="w-[72px] h-[72px] rounded-xl"
-          />
-        </a>
-        <div className="flex items-center">
-          <a
-            href={foundUser.html_url}
-            target="_blank"
-            className="text-slate-100"
-          >
-            {foundUser.login}
+    if (isLoading) {
+      searchResult = <p>Loading, please wait</p>;
+    } else {
+      searchResult = foundUsers.map((foundUser, index) => (
+        <li key={index} className="flex pb-2 gap-2">
+          <a href={foundUser.html_url} target="_blank">
+            <img
+              src={foundUser.avatar_url}
+              className="w-[72px] h-[72px] rounded-xl"
+            />
           </a>
-          <p className="text-slate-200">{foundUser.bio}</p>
-        </div>
-      </li>
-    ));
+          <div className="flex items-center">
+            <a
+              href={foundUser.html_url}
+              target="_blank"
+              className="text-slate-100"
+            >
+              {foundUser.login}
+            </a>
+            <p className="text-slate-200">{foundUser.bio}</p>
+          </div>
+        </li>
+      ));
+    }
 
     foundUsersHtml = (
       <div className="items bg-darkgray p-2 rounded-xl absolute z-100 w-[484px]">
-        <ul>{foundUsersList}</ul>
+        <ul className="min-w-10">{searchResult}</ul>
       </div>
     );
   }
@@ -244,17 +250,61 @@ function SearchResults({ foundUsers }) {
 }
 
 function Header({ username, onSearchQueryChange, onSearchSubmit }) {
-  const apiSearchUser = "https://api.github.com/search/users?q=" + username;
-  const [foundUsers, setFoundUsers] = useState(found_users.items);
+  const [foundUsers, setFoundUsers] = useState();
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onSearchSubmit();
   };
 
-  const handleInputChange = (e) => {
-    const value = e.target.value;
-  };
+  // Debounce the fetch function to avoid making too many requests in a short time
+  const debouncedFetchData = debounce(fetchData, 500);
+
+  async function fetchData() {
+    if (username) {
+      if (
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1"
+      ) {
+        setFoundUsers(found_users.items); // Load data from local file, there is no search in this case
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        const userDataApi = "https://api.github.com/search/users?q=" + username;
+
+        // Fetch data from the API
+        const response = await fetch(userDataApi);
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+
+        // Parse the json response
+        const jsonData = await response.json();
+
+        // Update the state with fetched data
+        setFoundUsers(jsonData.items);
+        setIsLoading(false);
+      } catch (error) {
+        // Handle Errors
+        console.log(error.message);
+        setIsLoading(false);
+      }
+    }
+  }
+
+  useEffect(() => {
+    // Call fetchData when searchQuery changes or component mounts
+    debouncedFetchData();
+
+    // Clean up debounce function
+    return () => {
+      debouncedFetchData.cancel();
+    };
+  }, [username]); // Run effect when searchQuery changes
 
   return (
     <div
@@ -274,7 +324,7 @@ function Header({ username, onSearchQueryChange, onSearchSubmit }) {
             className="bg-gray text-slate-100 placeholder-slate-300 p-4 pl-12 rounded-xl w-[484px] before:content-[{{}}]"
           ></input>
         </form>
-        <SearchResults foundUsers={foundUsers} />
+        <SearchResults foundUsers={foundUsers} isLoading={isLoading} />
       </div>
     </div>
   );
@@ -285,7 +335,8 @@ function App() {
   const handleSearchSubmit = () => {
     console.log("search submitted", seachQuery);
   };
-  console.log(seachQuery);
+
+  console.log("seachQuery", seachQuery);
 
   return (
     <>
