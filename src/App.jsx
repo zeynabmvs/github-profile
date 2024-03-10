@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { user_data } from "./data.js";
-import { user_repos } from "./data.js";
+import { user_data, found_users, user_repos } from "./data.js";
 import { formatDistanceToNow } from "date-fns";
 
 function Card({ repo }) {
@@ -210,28 +209,54 @@ function Profile({ username }) {
 }
 
 function Header({ username, onSearchQueryChange, onSearchSubmit }) {
+  const apiSearchUser = "https://api.github.com/search/users?q=" + username;
+  const [foundUsers, setFoundUsers] = useState(found_users.items);
+  console.log(foundUsers);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     onSearchSubmit();
   };
+
+  const foundUsersHtml = foundUsers.map((foundUser, index) => (
+    <li key={index} className="flex pb-2 gap-2">
+      <a href={foundUser.html_url} target="_blank">
+        <img
+          src={foundUser.avatar_url}
+          className="w-[72px] h-[72px] rounded-xl"
+        />
+      </a>
+      <div className="flex items-center">
+        <a href={foundUser.html_url} target="_blank" className="text-slate-100">
+          {foundUser.login}
+        </a>
+        <p className="text-slate-200">{foundUser.bio}</p>
+      </div>
+    </li>
+  ));
 
   return (
     <div
       id="header"
       className="h-[240px] w-full bg-center bg-cover bg-no-repeat bg-[url('/hero-image-github-profile.png')] flex justify-center"
     >
-      <form onSubmit={handleSubmit} className="relative mt-8 self-start">
-        <span className="absolute top-4 left-5">
-          <SearchIcon />
-        </span>
-        <input
-          type="text"
-          placeholder="username"
-          value={username}
-          onChange={(e) => onSearchQueryChange(e.target.value)}
-          className="bg-gray text-slate-100 placeholder-slate-300 p-4 pl-12 rounded-xl w-[484px] before:content-[{{}}]"
-        ></input>
-      </form>
+      <div>
+        <form onSubmit={handleSubmit} className="relative mt-8 mb-2 self-start">
+          <span className="absolute top-4 left-5">
+            <SearchIcon />
+          </span>
+          <input
+            type="text"
+            placeholder="username"
+            value={username}
+            onChange={(e) => onSearchQueryChange(e.target.value)}
+            className="bg-gray text-slate-100 placeholder-slate-300 p-4 pl-12 rounded-xl w-[484px] before:content-[{{}}]"
+          ></input>
+        </form>
+        <div className="items bg-darkgray p-2 rounded-xl absolute z-100 w-[484px]">
+          <ul>{foundUsersHtml}</ul>
+        </div>
+      </div>
     </div>
   );
 }
