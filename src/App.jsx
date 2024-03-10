@@ -50,6 +50,17 @@ function Repos({ username }) {
   useEffect(() => {
     // Define an asynchronous function to fetch data
     async function fetchData() {
+      // Check if running on localhost
+      if (
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1"
+      ) {
+        console.log("Running on localhost, loading local data.");
+        setUserRepos(user_repos); // Load data from local file
+        setIsLoading(false);
+        return;
+      }
+
       try {
         const apiRepoData =
           "https://api.github.com/users/" + username + "/repos";
@@ -111,19 +122,28 @@ function Repos({ username }) {
 function Profile({ username }) {
   // Toggle between these lines to use local data or API
   const [userData, setUserData] = useState();
-  // const [userData, setUserData] = useState(user_data);
-
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
+      // Check if running on localhost
+      if (
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1"
+      ) {
+        console.log("Running on localhost, loading local data.");
+        setUserData(user_data); // Load data from local file
+        setIsLoading(false);
+        return;
+      }
+
       try {
-        const userDataApi = "https://api.github.com/users/" + username
+        const userDataApi = "https://api.github.com/users/" + username;
 
         // Fetch data from the API
         const response = await fetch(userDataApi);
-        console.log(response)
+        console.log(response);
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
