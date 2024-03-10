@@ -109,7 +109,9 @@ function Repos({ username }) {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="cards grid grid-cols-2 gap-8 mb-12">{cards}</div>
+      <div className="cards flex flex-col lg:grid grid-cols-2 gap-8 mb-12">
+        {cards}
+      </div>
       <a
         href={user_repos_url}
         className="text-base text-slate-200 text-center mb-20 hover:underline"
@@ -179,26 +181,29 @@ function Profile({ username }) {
   }
 
   return (
-    <div className="profile -mt-11 pb-9">
-      <div className="flex items-end gap-12 pb-5">
-        <div className="bg-gray p-2 rounded-2xl">
+    <div className="profile lg:-mt-11 pb-9">
+      <div className="flex lg:items-end gap-6 xl:gap-12 pb-9 lg:pb-5">
+        <div className="bg-gray p-2 rounded-2xl -mt-11 lg:mt-0">
           <img
             src={userData.avatar_url}
             alt={userData.name}
             className="rounded-xl w-[104px] h-[104px]"
           />
         </div>
-        <div className="flex pb-3 gap-5">
-          <div className="bg-darkgray rounded-xl text-slate-300 h-[52px] py-2 px-9 flex items-center justify-center">
-            Followers<span className="block h-9 w-px mx-9 bg-slate-200"></span>
+        <div className="flex pt-3 lg:pb-3 lg:pt-0 gap-5 flex-col lg:flex-row items-start lg:items-center">
+          <div className="bg-darkgray rounded-xl text-slate-300 h-[52px] py-2 px-5 lg:px-9 flex items-center justify-start">
+            Followers
+            <span className="block h-9 w-px mx-5 lg:mx-9 bg-slate-200"></span>
             <span className="text-slate-100">{userData.followers}</span>
           </div>
-          <div className="bg-darkgray rounded-xl text-slate-300 h-[52px] py-2 px-9 flex items-center justify-center">
-            Following<span className="block h-9 w-px mx-9 bg-slate-200"></span>
+          <div className="bg-darkgray rounded-xl text-slate-300 h-[52px] py-2 px-5 lg:px-9 flex items-center justify-start">
+            Following
+            <span className="block h-9 w-px mx-5 lg:mx-9 bg-slate-200"></span>
             <span className="text-slate-100">{userData.following}</span>
           </div>
-          <div className="bg-darkgray rounded-xl text-slate-300 h-[52px] py-2 px-9 flex items-center justify-center">
-            Location<span className="block h-9 w-px mx-9 bg-slate-200"></span>
+          <div className="bg-darkgray rounded-xl text-slate-300 h-[52px] py-2 px-5 lg:px-9 flex items-center justify-start">
+            Location
+            <span className="block h-9 w-px mx-5 lg:mx-9 bg-slate-200"></span>
             <span className="text-slate-100">{userData.location}</span>
           </div>
         </div>
@@ -242,7 +247,7 @@ function SearchResults({ foundUsers, isLoading }) {
     }
 
     foundUsersHtml = (
-      <div className="items bg-darkgray p-2 rounded-xl absolute z-100 w-[484px]">
+      <div className="items bg-darkgray p-2 rounded-xl absolute z-100 w-[300px] md:w-[484px]">
         <ul className="min-w-10">{searchResult}</ul>
       </div>
     );
@@ -279,7 +284,7 @@ function Header({ username, onSearchQueryChange, onSearchSubmit }) {
 
         // Fetch data from the API
         const response = await fetch(userDataApi);
-
+        console.log(response);
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
@@ -323,7 +328,7 @@ function Header({ username, onSearchQueryChange, onSearchSubmit }) {
             placeholder="username"
             value={username}
             onChange={(e) => onSearchQueryChange(e.target.value)}
-            className="bg-gray text-slate-100 placeholder-slate-300 p-4 pl-12 rounded-xl w-[484px] before:content-[{{}}]"
+            className="bg-gray text-slate-100 placeholder-slate-300 p-4 pl-12 rounded-xl w-[300px] md:w-[484px] before:content-[{{}}]"
           ></input>
         </form>
         <SearchResults foundUsers={foundUsers} isLoading={isLoading} />
@@ -347,7 +352,7 @@ function App() {
         onSearchQueryChange={setSearchQuery}
         onSearchSubmit={handleSearchSubmit}
       />
-      <div className="container">
+      <div className="container px-4">
         <Profile username={seachQuery} />
         <Repos username={seachQuery} />
       </div>
