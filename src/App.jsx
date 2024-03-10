@@ -168,6 +168,9 @@ function Profile({ username }) {
   if (isLoading) {
     return <div>Loading...</div>;
   }
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   if (!userData) {
     return <div>No data available</div>;
@@ -206,34 +209,47 @@ function Profile({ username }) {
   );
 }
 
-function SearchForm() {
-  return (
-    <form>
-      <SearchIcon />
-      <input type="text" placeholder="username"></input>
-    </form>
-  );
-}
+function Header({ username, onSearchQueryChange, onSearchSubmit }) {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSearchSubmit();
+  };
 
-function Header() {
   return (
     <div
       id="header"
-      className="h-[240px] w-full bg-center bg-cover bg-no-repeat bg-[url('/hero-image-github-profile.png')]"
+      className="h-[240px] w-full bg-center bg-cover bg-no-repeat bg-[url('/hero-image-github-profile.png')] flex justify-center"
     >
-      <SearchForm />
+      <form onSubmit={handleSubmit} className="relative mt-8 self-start">
+        <span className="absolute top-4 left-5">
+          <SearchIcon />
+        </span>
+        <input
+          type="text"
+          placeholder="username"
+          value={username}
+          onChange={(e) => onSearchQueryChange(e.target.value)}
+          className="bg-gray text-slate-100 placeholder-slate-300 p-4 pl-12 rounded-xl w-[484px] before:content-[{{}}]"
+        ></input>
+      </form>
     </div>
   );
 }
 
 function App() {
-  const [seachQuery, setSetSearchQuery] = useState("github");
-
+  const [seachQuery, setSetSearchQuery] = useState("");
+  const handleSearchSubmit = () => {
+    console.log("search submitted", seachQuery);
+  };
   console.log(seachQuery);
 
   return (
     <>
-      <Header />
+      <Header
+        username={seachQuery}
+        onSearchQueryChange={setSetSearchQuery}
+        onSearchSubmit={handleSearchSubmit}
+      />
       <div className="container">
         <Profile username={seachQuery} />
         <Repos username={seachQuery} />
@@ -291,10 +307,10 @@ function SearchIcon() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle cx="11" cy="11" r="7" stroke="#97A3B6" strokeWidth="2" />
+      <circle cx="11" cy="11" r="7" stroke="#4A5567" strokeWidth="2" />
       <path
         d="M20 20L17 17"
-        stroke="#97A3B6"
+        stroke="#4A5567"
         strokeWidth="2"
         strokeLinecap="round"
       />
