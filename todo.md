@@ -3,7 +3,6 @@
 - (done) remove searchedUsers on page load
 - (done) call api when selecting from search result
 - (done) add no data content
-- form input validation?
 - (done) add loading animation
 - fix github api access rate limit issue
-- 
+- form input validation?
