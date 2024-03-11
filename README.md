@@ -11,6 +11,7 @@ https://github-profile-olive-phi.vercel.app/
 - View GitHub user profiles with their basic information, including username, avatar, bio, followers, following, and location.
 - Search for GitHub users by username.
 - Display the latest repositories of a GitHub user
+- Responsive design for seamless viewing across different devices and screen sizes.
 
 ## Technologies Used
 
@@ -18,6 +19,7 @@ https://github-profile-olive-phi.vercel.app/
 - **Vite**: A fast build tool that provides instant server start and fast hot module replacement (HMR) for React.
 - **JavaScript**: The programming language used to build the application.
 - **GitHub API**: Used to fetch user profiles and repositories from GitHub.
+- **Tailwind CSS**: Utility-first CSS framework for rapidly building custom designs
 
 ## Getting Started
 
@@ -52,17 +54,14 @@ https://github-profile-olive-phi.vercel.app/
    npm run dev
    ```
 
-
 ## Usage
 
 - Enter a GitHub username in the search input field to view the profile and repositories of the corresponding user.
 - Click on the "View all repositories" link to see all repositories of the user.
 
-
 ## Contributing
 
 Contributions are welcome! Feel free to open issues or submit pull requests.
-
 
 ## License
 
