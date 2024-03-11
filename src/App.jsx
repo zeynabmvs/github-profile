@@ -21,7 +21,7 @@ function Card({ repo }) {
     <div className="card">
       <a
         href={repo.html_url}
-        className="text-xl pb- text-slate-100 hover:underline"
+        className="text-xl pb- text-slate-100 hover:underline font-semibold"
         target="_blank"
       >
         {repo.name}
@@ -201,7 +201,7 @@ function Profile({ username }) {
           </div>
         </div>
       </div>
-      <h2 className="capitalize text-2base pb-2 text-slate-100">
+      <h2 className="capitalize text-2base pb-2 text-slate-100 font-semibold">
         {userData.login}
       </h2>
       <p className="text-slate-200 font-normal	">{userData.bio}</p>

@@ -4,14 +4,14 @@
 
 @font-face {
   font-family: BeVietnamPro;
-  font-weight: 700;
-  src: url("/fonts/BeVietnamPro-Bold.ttf");
+  font-weight: 600;
+  src: url("/fonts/BeVietnamPro-SemiBold.ttf") format("truetype");
 }
 
 @font-face {
   font-family: BeVietnamPro;
-  font-weight: 400;
-  src: url("/fonts/BeVietnamPro-Regular.ttf");
+  font-weight: 300;
+  src: url("/fonts/BeVietnamPro-Light.ttf") format("truetype");
 }
 
 @layer base {
@@ -29,6 +29,6 @@
 
 @layer components {
   .card {
-    @apply rounded-xl p-5 bg-gradient-to-r from-darkgray to-darkblue ;
+    @apply rounded-xl p-5 bg-gradient-to-r from-darkgray to-darkblue;
   }
 }

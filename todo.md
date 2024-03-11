@@ -1,7 +1,7 @@
-- remove unused font files
-- set fornt weight correctly
-- add loading animation
+- (done) remove unused font files
+- (done) set fornt weight correctly
+- (done) remove searchedUsers on page load
+- (done) call api when selecting from search result
 - add no data content
-- remove searchedUsers on page load
-- call api when selecting from search result
 - form input validation?
+- add loading animation
