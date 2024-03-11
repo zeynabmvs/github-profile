@@ -4,7 +4,7 @@ import { user_data, found_users, user_repos } from "./data.js";
 import { formatDistanceToNow } from "date-fns";
 import debounce from "lodash/debounce";
 
-const env = "local";
+const env = "";
 
 function Card({ repo }) {
   const license = repo.license && (
