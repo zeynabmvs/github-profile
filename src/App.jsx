@@ -4,7 +4,7 @@ import { user_data, found_users, user_repos } from "./data.js";
 import { formatDistanceToNow } from "date-fns";
 import debounce from "lodash/debounce";
 
-const env = "";
+const env = "local";
 
 function Card({ repo }) {
   const license = repo.license && (
@@ -88,11 +88,7 @@ function Repos({ username }) {
   }, [username]); // Empty dependency array means this effect runs once after the initial render
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center p-12">
-        <LoadingIcon />
-      </div>
-    );
+    return <LoadingComponent />;
   }
 
   if (error) {
@@ -218,7 +214,7 @@ function SearchResults({ foundUsers, isLoading, onProfileClick }) {
 
   if (foundUsers) {
     if (isLoading) {
-      searchResult = <p>Loading, please wait</p>;
+      searchResult = <LoadingComponent />;
     } else {
       searchResult = foundUsers.slice(-5).map((foundUser, index) => (
         <li key={index} className="flex pb-2 gap-2">
@@ -352,6 +348,8 @@ function App() {
     console.log("search submitted", searchQuery);
   };
 
+  console.log(searchQuery)
+
   const handleProfileClick = (newUsername) => {
     console.log("profile clicked", newUsername);
     setUsername(newUsername); // Update the username state with the new username
@@ -473,9 +471,9 @@ function StarIcon() {
   );
 }
 
-function LoadingIcon() {
+function LoadingComponent() {
   return (
-    <div role="status">
+    <div className="flex justify-center p-12" role="status">
       <svg
         aria-hidden="true"
         className="w-8 h-8 animate-spin fill-slate-400"
