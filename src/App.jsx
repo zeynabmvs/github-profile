@@ -4,6 +4,8 @@ import { user_data, found_users, user_repos } from "./data.js";
 import { formatDistanceToNow } from "date-fns";
 import debounce from "lodash/debounce";
 
+const env = "local";
+
 function Card({ repo }) {
   const license = repo.license && (
     <div className="flex gap-2 text-slate-200">
@@ -51,10 +53,7 @@ function Repos({ username }) {
     // Define an asynchronous function to fetch data
     async function fetchData() {
       // Check if running on localhost
-      if (
-        window.location.hostname === "localhost" ||
-        window.location.hostname === "127.0.0.1"
-      ) {
+      if (env === "local") {
         setUserRepos(user_repos); // Load data from local file
         setIsLoading(false);
         return;
@@ -86,7 +85,7 @@ function Repos({ username }) {
 
     // Call the fetchData function
     fetchData();
-  }, []); // Empty dependency array means this effect runs once after the initial render
+  }, [username]); // Empty dependency array means this effect runs once after the initial render
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -107,7 +106,7 @@ function Repos({ username }) {
   const user_repos_url = "https://github.com/" + username;
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col">
       <div className="cards flex flex-col lg:grid grid-cols-2 gap-8 mb-12">
         {cards}
       </div>
@@ -131,10 +130,7 @@ function Profile({ username }) {
   useEffect(() => {
     async function fetchData() {
       // Check if running on localhost
-      if (
-        window.location.hostname === "localhost" ||
-        window.location.hostname === "127.0.0.1"
-      ) {
+      if (env === "local") {
         setUserData(user_data); // Load data from local file
         setIsLoading(false);
         return;
@@ -164,7 +160,7 @@ function Profile({ username }) {
 
     // Call the fetch data function
     fetchData();
-  }, []); // Empty dependency array means this effect runs once after the initial render
+  }, [username]); // Empty dependency array means this effect runs once after the initial render
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -216,7 +212,7 @@ function Profile({ username }) {
 function SearchResults({ foundUsers, isLoading, onProfileClick }) {
   let foundUsersHtml = null;
   let searchResult = null;
-  
+
   const handleProfileClick = (e, username) => {
     e.preventDefault(); // Prevent default link behavior
     onProfileClick(username); // Call the onProfileClick callback with the username
@@ -282,17 +278,15 @@ function Header({
 
   async function fetchData() {
     if (searchQuery) {
-      if (
-        window.location.hostname === "localhost" ||
-        window.location.hostname === "127.0.0.1"
-      ) {
+      if (env === "local") {
         setFoundUsers(found_users.items); // Load data from local file, there is no search in this case
         setIsLoading(false);
         return;
       }
 
       try {
-        const userDataApi = "https://api.github.com/search/users?q=" + username;
+        const userDataApi =
+          "https://api.github.com/search/users?q=" + searchQuery;
 
         // Fetch data from the API
         const response = await fetch(userDataApi);
