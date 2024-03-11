@@ -2,3 +2,6 @@
 - set fornt weight correctly
 - add loading animation
 - add no data content
+- remove searchedUsers on page load
+- call api when selecting from search result
+- form input validation?

@@ -55,7 +55,6 @@ function Repos({ username }) {
         window.location.hostname === "localhost" ||
         window.location.hostname === "127.0.0.1"
       ) {
-        // console.log("Running on localhost, loading local data.");
         setUserRepos(user_repos); // Load data from local file
         setIsLoading(false);
         return;
@@ -136,7 +135,6 @@ function Profile({ username }) {
         window.location.hostname === "localhost" ||
         window.location.hostname === "127.0.0.1"
       ) {
-        // console.log("Running on localhost, loading local data.");
         setUserData(user_data); // Load data from local file
         setIsLoading(false);
         return;
@@ -147,7 +145,6 @@ function Profile({ username }) {
 
         // Fetch data from the API
         const response = await fetch(userDataApi);
-        // console.log(response);
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
@@ -216,17 +213,26 @@ function Profile({ username }) {
   );
 }
 
-function SearchResults({ foundUsers, isLoading }) {
+function SearchResults({ foundUsers, isLoading, onProfileClick }) {
   let foundUsersHtml = null;
   let searchResult = null;
+  
+  const handleProfileClick = (e, username) => {
+    e.preventDefault(); // Prevent default link behavior
+    onProfileClick(username); // Call the onProfileClick callback with the username
+  };
 
   if (foundUsers) {
     if (isLoading) {
       searchResult = <p>Loading, please wait</p>;
     } else {
-      searchResult = foundUsers.map((foundUser, index) => (
+      searchResult = foundUsers.slice(-5).map((foundUser, index) => (
         <li key={index} className="flex pb-2 gap-2">
-          <a href={foundUser.html_url} target="_blank">
+          <a
+            href="#"
+            target="_blank"
+            onClick={(e) => handleProfileClick(e, foundUser.login)}
+          >
             <img
               src={foundUser.avatar_url}
               className="w-[72px] h-[72px] rounded-xl"
@@ -234,9 +240,10 @@ function SearchResults({ foundUsers, isLoading }) {
           </a>
           <div className="flex items-center">
             <a
-              href={foundUser.html_url}
+              href="#"
               target="_blank"
-              className="text-slate-100"
+              className="textslate-100"
+              onClick={(e) => handleProfileClick(e, foundUser.login)}
             >
               {foundUser.login}
             </a>
@@ -256,7 +263,12 @@ function SearchResults({ foundUsers, isLoading }) {
   return foundUsersHtml;
 }
 
-function Header({ username, onSearchQueryChange, onSearchSubmit }) {
+function Header({
+  searchQuery,
+  onSearchQueryChange,
+  onSearchSubmit,
+  onProfileClick,
+}) {
   const [foundUsers, setFoundUsers] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -269,7 +281,7 @@ function Header({ username, onSearchQueryChange, onSearchSubmit }) {
   const debouncedFetchData = debounce(fetchData, 500);
 
   async function fetchData() {
-    if (username) {
+    if (searchQuery) {
       if (
         window.location.hostname === "localhost" ||
         window.location.hostname === "127.0.0.1"
@@ -284,7 +296,6 @@ function Header({ username, onSearchQueryChange, onSearchSubmit }) {
 
         // Fetch data from the API
         const response = await fetch(userDataApi);
-        console.log(response);
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
@@ -311,7 +322,7 @@ function Header({ username, onSearchQueryChange, onSearchSubmit }) {
     return () => {
       debouncedFetchData.cancel();
     };
-  }, [username]); // Run effect when searchQuery changes
+  }, [searchQuery]); // Run effect when searchQuery changes
 
   return (
     <div
@@ -326,35 +337,45 @@ function Header({ username, onSearchQueryChange, onSearchSubmit }) {
           <input
             type="text"
             placeholder="username"
-            value={username}
+            value={searchQuery}
             onChange={(e) => onSearchQueryChange(e.target.value)}
             className="bg-gray text-slate-100 placeholder-slate-300 p-4 pl-12 rounded-xl w-[300px] md:w-[484px] before:content-[{{}}]"
           ></input>
         </form>
-        <SearchResults foundUsers={foundUsers} isLoading={isLoading} />
+        <SearchResults
+          foundUsers={foundUsers}
+          isLoading={isLoading}
+          onProfileClick={onProfileClick}
+        />
       </div>
     </div>
   );
 }
 
 function App() {
-  const [seachQuery, setSearchQuery] = useState("github");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [username, setUsername] = useState("github");
+
   const handleSearchSubmit = () => {
-    console.log("search submitted", seachQuery);
+    console.log("search submitted", searchQuery);
   };
 
-  console.log("seachQuery", seachQuery);
+  const handleProfileClick = (newUsername) => {
+    console.log("profile clicked", newUsername);
+    setUsername(newUsername); // Update the username state with the new username
+  };
 
   return (
     <>
       <Header
-        username={seachQuery}
+        searchQuery={searchQuery}
         onSearchQueryChange={setSearchQuery}
         onSearchSubmit={handleSearchSubmit}
+        onProfileClick={handleProfileClick}
       />
       <div className="container px-4">
-        <Profile username={seachQuery} />
-        <Repos username={seachQuery} />
+        <Profile username={username} />
+        <Repos username={username} />
       </div>
     </>
   );
