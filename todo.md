@@ -2,6 +2,8 @@
 - (done) set fornt weight correctly
 - (done) remove searchedUsers on page load
 - (done) call api when selecting from search result
-- add no data content
+- (done) add no data content
 - form input validation?
-- add loading animation
+- (done) add loading animation
+- fix github api access rate limit issue
+- 

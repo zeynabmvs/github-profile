@@ -55,7 +55,7 @@ function Repos({ username }) {
       // Check if running on localhost
       if (env === "local") {
         setUserRepos(user_repos); // Load data from local file
-        setIsLoading(false);
+        // setIsLoading(false);
         return;
       }
 
@@ -88,7 +88,11 @@ function Repos({ username }) {
   }, [username]); // Empty dependency array means this effect runs once after the initial render
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center p-12">
+        <LoadingIcon />
+      </div>
+    );
   }
 
   if (error) {
@@ -124,15 +128,13 @@ function Repos({ username }) {
 function Profile({ username }) {
   // Toggle between these lines to use local data or API
   const [userData, setUserData] = useState();
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const defaultAvatarUrl = "../public/avatar-default.svg";
 
   useEffect(() => {
     async function fetchData() {
       // Check if running on localhost
       if (env === "local") {
         setUserData(user_data); // Load data from local file
-        setIsLoading(false);
         return;
       }
 
@@ -150,27 +152,15 @@ function Profile({ username }) {
 
         // Update the state with fetched data
         setUserData(jsonData);
-        setIsLoading(false);
-      } catch (error) {
-        // Handle Errors
-        setError(error.message);
-        setIsLoading(false);
-      }
+      } catch (error) {}
     }
 
     // Call the fetch data function
     fetchData();
   }, [username]); // Empty dependency array means this effect runs once after the initial render
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
   if (!userData) {
-    return <div>No data available</div>;
+    return <div className="text-center p-8">No data available</div>;
   }
 
   return (
@@ -178,7 +168,7 @@ function Profile({ username }) {
       <div className="flex lg:items-end gap-6 xl:gap-12 pb-9 lg:pb-5">
         <div className="bg-gray p-2 rounded-2xl -mt-11 lg:mt-0">
           <img
-            src={userData.avatar_url}
+            src={userData.avatar_url ? userData.avatar_url : defaultAvatarUrl}
             alt={userData.name}
             className="rounded-xl w-[104px] h-[104px]"
           />
@@ -187,24 +177,32 @@ function Profile({ username }) {
           <div className="bg-darkgray rounded-xl text-slate-300 h-[52px] py-2 px-5 lg:px-9 flex items-center justify-start">
             Followers
             <span className="block h-9 w-px mx-5 lg:mx-9 bg-slate-200"></span>
-            <span className="text-slate-100">{userData.followers}</span>
+            <span className="text-slate-100">
+              {userData.followers ? userData.followers : "-"}
+            </span>
           </div>
           <div className="bg-darkgray rounded-xl text-slate-300 h-[52px] py-2 px-5 lg:px-9 flex items-center justify-start">
             Following
             <span className="block h-9 w-px mx-5 lg:mx-9 bg-slate-200"></span>
-            <span className="text-slate-100">{userData.following}</span>
+            <span className="text-slate-100">
+              {userData.following ? userData.following : "-"}
+            </span>
           </div>
           <div className="bg-darkgray rounded-xl text-slate-300 h-[52px] py-2 px-5 lg:px-9 flex items-center justify-start">
             Location
             <span className="block h-9 w-px mx-5 lg:mx-9 bg-slate-200"></span>
-            <span className="text-slate-100">{userData.location}</span>
+            <span className="text-slate-100">
+              {userData.location ? userData.location : "-"}
+            </span>
           </div>
         </div>
       </div>
       <h2 className="capitalize text-2base pb-2 text-slate-100 font-semibold">
-        {userData.login}
+        {userData.login ? userData.login : "-"}
       </h2>
-      <p className="text-slate-200 font-normal	">{userData.bio}</p>
+      <p className="text-slate-200 font-normal	">
+        {userData.bio ? userData.bio : "-"}
+      </p>
     </div>
   );
 }
@@ -472,5 +470,29 @@ function StarIcon() {
         strokeWidth="2"
       />
     </svg>
+  );
+}
+
+function LoadingIcon() {
+  return (
+    <div role="status">
+      <svg
+        aria-hidden="true"
+        className="w-8 h-8 animate-spin fill-slate-400"
+        viewBox="0 0 100 101"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+          fill="currentColor"
+        />
+        <path
+          d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+          fill="currentFill"
+        />
+      </svg>
+      <span className="sr-only">Loading...</span>
+    </div>
   );
 }
