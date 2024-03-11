@@ -2,7 +2,7 @@
 
 GitHub Profile Viewer is a single-page application built with React that allows users to view GitHub profiles and repositories.
 
-# Live site
+## Live site
 
 https://github-profile-olive-phi.vercel.app/
 
@@ -52,17 +52,18 @@ https://github-profile-olive-phi.vercel.app/
    npm run dev
    ```
 
-# Usage
+
+## Usage
 
 - Enter a GitHub username in the search input field to view the profile and repositories of the corresponding user.
 - Click on the "View all repositories" link to see all repositories of the user.
 
 
-# Contributing
+## Contributing
 
 Contributions are welcome! Feel free to open issues or submit pull requests.
 
 
-# License
+## License
 
 This project is licensed under the MIT License
