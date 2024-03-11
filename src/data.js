@@ -28,7 +28,7 @@ export const user_data = {
     "public_repos": 489,
     "public_gists": 0,
     "followers": 3000,
-    "following": 100,
+    "following": 0,
     "created_at": "2008-05-11T04:37:31Z",
     "updated_at": "2022-11-29T19:44:55Z"
   }

@@ -4,7 +4,7 @@ import { user_data, found_users, user_repos } from "./data.js";
 import { formatDistanceToNow } from "date-fns";
 import debounce from "lodash/debounce";
 
-const env = "";
+const env = "local";
 
 function Card({ repo }) {
   const license = repo.license && (
@@ -55,7 +55,7 @@ function Repos({ username }) {
       // Check if running on localhost
       if (env === "local") {
         setUserRepos(user_repos); // Load data from local file
-        // setIsLoading(false);
+        setIsLoading(false);
         return;
       }
 
@@ -178,14 +178,14 @@ function Profile({ username }) {
             Followers
             <span className="block h-9 w-px mx-5 lg:mx-9 bg-slate-200"></span>
             <span className="text-slate-100">
-              {userData.followers ? userData.followers : "-"}
+              {userData.followers != null ? userData.followers : "-"}
             </span>
           </div>
           <div className="bg-darkgray rounded-xl text-slate-300 h-[52px] py-2 px-5 lg:px-9 flex items-center justify-start">
             Following
             <span className="block h-9 w-px mx-5 lg:mx-9 bg-slate-200"></span>
             <span className="text-slate-100">
-              {userData.following ? userData.following : "-"}
+              {userData.following != null ? userData.following : "-"}
             </span>
           </div>
           <div className="bg-darkgray rounded-xl text-slate-300 h-[52px] py-2 px-5 lg:px-9 flex items-center justify-start">
