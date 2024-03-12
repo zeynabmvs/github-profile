@@ -208,7 +208,7 @@ function Profile({ username }) {
   );
 }
 
-function SearchResults({ foundUsers, isLoading, onProfileClick }) {
+function SearchResults({ foundUsers, isLoading, onProfileClick, searchQuery }) {
   let foundUsersHtml = null;
   let searchResult = null;
 
@@ -217,7 +217,7 @@ function SearchResults({ foundUsers, isLoading, onProfileClick }) {
     onProfileClick(username); // Call the onProfileClick callback with the username
   };
 
-  if (foundUsers) {
+  if (foundUsers && searchQuery) {
     if (isLoading) {
       searchResult = <LoadingComponent />;
     } else {
@@ -339,6 +339,7 @@ function Header({
           foundUsers={foundUsers}
           isLoading={isLoading}
           onProfileClick={onProfileClick}
+          searchQuery={searchQuery}
         />
       </div>
     </div>
@@ -353,11 +354,12 @@ function App() {
     console.log("search submitted", searchQuery);
   };
 
-  console.log(searchQuery);
 
   const handleProfileClick = (newUsername) => {
     console.log("profile clicked", newUsername);
     setUsername(newUsername); // Update the username state with the new username
+    setSearchQuery("");
+    console.log(searchQuery);
   };
 
   return (
