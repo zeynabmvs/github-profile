@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import Loading from "./Loading";
-import { ENV } from "../constants.js";
-import { user_repos } from "../data.js";
-import Card from "./Card.jsx";
+import { ENV } from "../constants";
+import { user_repos } from "../data";
+import Card from "./Card";
 
 function Repos({ username }) {
   const [userRepos, setUserRepos] = useState();

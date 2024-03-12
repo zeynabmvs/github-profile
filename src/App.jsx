@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import Profile from "./components/Profile";
-import Repos from "./components/Repos.jsx";
-import Header from "./components/Header.jsx";
+import Repos from "./components/Repos";
+import Header from "./components/Header";
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");

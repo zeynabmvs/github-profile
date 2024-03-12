@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { user_data } from "../data";
-import { ENV } from "../constants.js";
+import { ENV } from "../constants";
 
 function Profile({ username }) {
-  // Toggle between these lines to use local data or API
   const [userData, setUserData] = useState();
   const defaultAvatarUrl = "../public/avatar-default.svg";
 

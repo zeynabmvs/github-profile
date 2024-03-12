@@ -1,1 +1,1 @@
-export const ENV = "";
+export const ENV = "local";
