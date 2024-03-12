@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { found_users } from "../data";
-import SearchResults from "./SearchResultsx";
+import SearchResults from "./SearchResults";
 import debounce from "lodash/debounce";
 import searchIcon from '../assets/Search.svg'
 import { ENV } from "../constants";
