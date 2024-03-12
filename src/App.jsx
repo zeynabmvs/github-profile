@@ -8,7 +8,7 @@ import nestingIcon from "./assets/Nesting.svg";
 import searchIcon from "./assets/Search.svg";
 import starIcon from "./assets/Star.svg";
 
-const env = "local";
+const env = "";
 
 function Card({ repo }) {
   const license = repo.license && (
