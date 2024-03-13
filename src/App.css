@@ -5,13 +5,13 @@
 @font-face {
   font-family: BeVietnamPro;
   font-weight: 600;
-  src: url("/fonts/BeVietnamPro-SemiBold.ttf") format("truetype");
+  src: url("./assets/fonts/BeVietnamPro-SemiBold.ttf") format("truetype");
 }
 
 @font-face {
   font-family: BeVietnamPro;
   font-weight: 300;
-  src: url("/fonts/BeVietnamPro-Light.ttf") format("truetype");
+  src: url("./assets/fonts/BeVietnamPro-Light.ttf") format("truetype");
 }
 
 @layer base {

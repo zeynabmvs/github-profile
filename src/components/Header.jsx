@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { found_users } from "../data";
 import SearchResults from "./SearchResults";
 import debounce from "lodash/debounce";
-import searchIcon from "../assets/Search.svg";
+import searchIcon from "../assets/icons/Search.svg";
 import { ENV } from "../constants";
 
 function Header({
@@ -67,7 +67,7 @@ function Header({
   return (
     <div
       id="header"
-      className="h-[240px] w-full bg-center bg-cover bg-no-repeat bg-[url('/hero-image-github-profile.png')] flex justify-center"
+      className="h-[240px] w-full bg-center bg-cover bg-no-repeat bg-[url('./assets/images/hero-image-github-profile.png')] flex justify-center"
     >
       <div>
         <form onSubmit={handleSubmit} className="relative mt-8 mb-2 self-start">

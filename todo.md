@@ -6,5 +6,5 @@
 - (done) add loading animation
 - fix github api access rate limit issue
 - form input validation?
-- seperate code in components
+- (done) seperate code in components
 - foundUsers.slice(-5) is this the best approach? 

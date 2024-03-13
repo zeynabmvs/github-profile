@@ -1,6 +1,6 @@
-import chieldIcon from "../assets/Chield.svg";
-import nestingIcon from "../assets/Nesting.svg";
-import starIcon from "../assets/Star.svg";
+import chieldIcon from "../assets/icons/Chield.svg";
+import nestingIcon from "../assets/icons/Nesting.svg";
+import starIcon from "../assets/icons/Star.svg";
 import { formatDistanceToNow } from "date-fns";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";

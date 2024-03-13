@@ -8,8 +8,6 @@ function Profile({ username }) {
   const [userData, setUserData] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
-  const defaultAvatarUrl = "../public/avatar-default.svg";
-
   useEffect(() => {
     async function fetchData() {
       // Check if running on localhost
@@ -58,7 +56,7 @@ function Profile({ username }) {
             />
           ) : (
             <img
-              src={userData.avatar_url ? userData.avatar_url : defaultAvatarUrl}
+              src={userData.avatar_url}
               alt={userData.name}
               className="rounded-xl w-[104px] h-[104px]"
             />
