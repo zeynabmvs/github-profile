@@ -77,13 +77,16 @@ function Profile({ username }) {
               {isLoading ? "-" : userData.following}
             </span>
           </div>
-          <div className="bg-darkgray rounded-xl text-slate-300 h-[52px] py-2 px-5 lg:px-9 flex items-center justify-start">
-            Location
-            <span className="block h-9 w-px mx-5 lg:mx-9 bg-slate-200"></span>
-            <span className="text-slate-100">
-              {isLoading ? "-" : userData.location}
-            </span>
-          </div>
+          {}
+          {userData.location ? (
+            <div className="bg-darkgray rounded-xl text-slate-300 h-[52px] py-2 px-5 lg:px-9 flex items-center justify-start">
+              Location
+              <span className="block h-9 w-px mx-5 lg:mx-9 bg-slate-200"></span>
+              <span className="text-slate-100">
+                {isLoading ? "-" : userData.location}
+              </span>
+            </div>
+          ) : null}
         </div>
       </div>
       <h2 className="capitalize text-2base pb-2 text-slate-100 font-semibold">
