@@ -15,7 +15,7 @@ function Profile({ username }) {
       // Check if running on localhost
       if (ENV === "local") {
         setUserData(user_data); // Load data from local file
-        // setIsLoading(false);
+        setIsLoading(false);
         return;
       }
 

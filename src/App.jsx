@@ -18,7 +18,6 @@ function App() {
     console.log("profile clicked", newUsername);
     setUsername(newUsername); // Update the username state with the new username
     setSearchQuery("");
-    console.log(searchQuery);
   };
 
   return (

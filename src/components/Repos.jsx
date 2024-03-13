@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Loading from "./Loading";
 import { ENV } from "../constants";
 import { user_repos } from "../data";
 import Card from "./Card";
