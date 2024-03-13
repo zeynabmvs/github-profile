@@ -47,10 +47,6 @@ function Repos({ username }) {
     fetchData();
   }, [username]); // Empty dependency array means this effect runs once after the initial render
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
   if (error) {
     return <div>Error: {error}</div>;
   }
@@ -62,7 +58,7 @@ function Repos({ username }) {
   // return four latest repos
   const repos = userRepos.slice(-4);
 
-  const cards = repos.map((repo, index) => <Card repo={repo} key={index} />);
+  const cards = repos.map((repo, index) => <Card repo={repo} key={index} isLoading={isLoading}/>);
   const user_repos_url = "https://github.com/" + username;
 
   return (

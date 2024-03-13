@@ -3,6 +3,8 @@ import "./App.css";
 import Profile from "./components/Profile";
 import Repos from "./components/Repos";
 import Header from "./components/Header";
+import { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -21,19 +23,20 @@ function App() {
 
   return (
     <>
-      <Header
-        searchQuery={searchQuery}
-        onSearchQueryChange={setSearchQuery}
-        onSearchSubmit={handleSearchSubmit}
-        onProfileClick={handleProfileClick}
-      />
-      <div className="container px-4">
-        <Profile username={username} />
-        <Repos username={username} />
-      </div>
+      <SkeletonTheme baseColor="#364153" highlightColor="#4A5567" duration={2}>
+        <Header
+          searchQuery={searchQuery}
+          onSearchQueryChange={setSearchQuery}
+          onSearchSubmit={handleSearchSubmit}
+          onProfileClick={handleProfileClick}
+        />
+        <div className="container px-4">
+          <Profile username={username} />
+          <Repos username={username} />
+        </div>
+      </SkeletonTheme>
     </>
   );
 }
 
 export default App;
-
