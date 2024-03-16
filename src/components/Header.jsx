@@ -8,7 +8,6 @@ import { ENV, CLIENT_ID, CLIENT_SECRET } from "../constants";
 function Header({
   searchQuery,
   onSearchQueryChange,
-  onSearchSubmit,
   onProfileClick,
 }) {
   const [foundUsers, setFoundUsers] = useState();
@@ -16,7 +15,6 @@ function Header({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSearchSubmit();
   };
 
   // Debounce the fetch function to avoid making too many requests in a short time

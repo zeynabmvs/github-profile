@@ -10,10 +10,6 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [username, setUsername] = useState("github");
 
-  const handleSearchSubmit = () => {
-    console.log("search submitted", searchQuery);
-  };
-
   const handleProfileClick = (newUsername) => {
     setUsername(newUsername); // Update the username state with the new username
     setSearchQuery("");
@@ -25,7 +21,6 @@ function App() {
         <Header
           searchQuery={searchQuery}
           onSearchQueryChange={setSearchQuery}
-          onSearchSubmit={handleSearchSubmit}
           onProfileClick={handleProfileClick}
         />
         <div className="container px-4">
