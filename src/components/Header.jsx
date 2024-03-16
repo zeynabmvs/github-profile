@@ -3,7 +3,7 @@ import { found_users } from "../data";
 import SearchResults from "./SearchResults";
 import debounce from "lodash/debounce";
 import searchIcon from "../assets/icons/Search.svg";
-import { ENV } from "../constants";
+import { ENV, CLIENT_ID, CLIENT_SECRET } from "../constants";
 
 function Header({
   searchQuery,
@@ -31,11 +31,21 @@ function Header({
       }
 
       try {
+        const headers = new Headers();
+        headers.append(
+          "Authorization",
+          `Basic ${btoa(`${CLIENT_ID}:${CLIENT_SECRET}`)}`
+        );
+
         const userDataApi =
           "https://api.github.com/search/users?q=" + searchQuery;
 
+        console.log("api call:", searchQuery);
         // Fetch data from the API
-        const response = await fetch(userDataApi);
+        const response = await fetch(userDataApi, {
+          method: "GET",
+          headers: headers,
+        });
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }

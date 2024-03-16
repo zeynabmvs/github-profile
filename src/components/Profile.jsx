@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { user_data } from "../data";
-import { ENV } from "../constants";
+import { ENV, CLIENT_ID, CLIENT_SECRET } from "../constants";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 function Profile({ username }) {
-  const [userData, setUserData] = useState();
+  const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -18,10 +18,18 @@ function Profile({ username }) {
       }
 
       try {
+        const headers = new Headers();
+        headers.append(
+          "Authorization",
+          `Basic ${btoa(`${CLIENT_ID}:${CLIENT_SECRET}`)}`
+        );
         const userDataApi = "https://api.github.com/users/" + username;
 
         // Fetch data from the API
-        const response = await fetch(userDataApi);
+        const response = await fetch(userDataApi, {
+          method: "GET",
+          headers: headers,
+        });
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ENV } from "../constants";
+import { ENV, CLIENT_ID, CLIENT_SECRET } from "../constants";
 import { user_repos } from "../data";
 import Card from "./Card";
 
@@ -19,11 +19,20 @@ function Repos({ username }) {
       }
 
       try {
+        const headers = new Headers();
+        headers.append(
+          "Authorization",
+          `Basic ${btoa(`${import.meta.env.CLIENT_ID}:${CLIENT_SECRET}`)}`
+        );
+
         const apiRepoData =
           "https://api.github.com/users/" + username + "/repos";
 
         // Fetch data from the API
-        const response = await fetch(apiRepoData);
+        const response = await fetch(apiRepoData, {
+          method: "GET",
+          headers: headers,
+        });
 
         if (!response.ok) {
           throw new Error("Failed to fetch data");
@@ -57,7 +66,9 @@ function Repos({ username }) {
   // return four latest repos
   const repos = userRepos.slice(-4);
 
-  const cards = repos.map((repo, index) => <Card repo={repo} key={index} isLoading={isLoading}/>);
+  const cards = repos.map((repo, index) => (
+    <Card repo={repo} key={index} isLoading={isLoading} />
+  ));
   const user_repos_url = "https://github.com/" + username;
 
   return (
