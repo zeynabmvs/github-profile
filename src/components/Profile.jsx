@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { user_data } from "../data";
 import { ENV, CLIENT_ID, CLIENT_SECRET } from "../constants";
 import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 
 function Profile({ username }) {
   const [userData, setUserData] = useState(null);
@@ -66,7 +65,7 @@ function Profile({ username }) {
             <img
               src={userData.avatar_url}
               alt={userData.name}
-              className="rounded-xl w-[104px] h-[104px]"
+              className="rounded-xl size-[104px]"
             />
           )}
         </div>

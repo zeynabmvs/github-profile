@@ -23,7 +23,7 @@ function SearchResults({ foundUsers, isLoading, onProfileClick, searchQuery }) {
             {" "}
             <img
               src={foundUser.avatar_url}
-              className="w-[72px] h-[72px] rounded-xl"
+              className="size-[72px] rounded-xl"
             />
           </a>
         )}

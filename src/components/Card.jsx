@@ -3,7 +3,6 @@ import nestingIcon from "../assets/icons/Nesting.svg";
 import starIcon from "../assets/icons/Star.svg";
 import { formatDistanceToNow } from "date-fns";
 import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 
 function Card({ repo, isLoading }) {
   const license = repo.license && (

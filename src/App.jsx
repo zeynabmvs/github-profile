@@ -4,7 +4,6 @@ import Profile from "./components/Profile";
 import Repos from "./components/Repos";
 import Header from "./components/Header";
 import { SkeletonTheme } from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
