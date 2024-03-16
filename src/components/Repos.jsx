@@ -4,7 +4,7 @@ import { user_repos } from "../data";
 import Card from "./Card";
 
 function Repos({ username }) {
-  const [userRepos, setUserRepos] = useState();
+  const [userRepos, setUserRepos] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -28,6 +28,8 @@ function Repos({ username }) {
         const apiRepoData =
           "https://api.github.com/users/" + username + "/repos";
 
+        console.log("api call:", apiRepoData);
+      
         // Fetch data from the API
         const response = await fetch(apiRepoData, {
           method: "GET",

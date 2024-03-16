@@ -10,7 +10,7 @@ function Header({
   onSearchQueryChange,
   onProfileClick,
 }) {
-  const [foundUsers, setFoundUsers] = useState();
+  const [foundUsers, setFoundUsers] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const handleSubmit = (e) => {
@@ -38,7 +38,7 @@ function Header({
         const userDataApi =
           "https://api.github.com/search/users?q=" + searchQuery;
 
-        console.log("api call:", searchQuery);
+        console.log("api call:", userDataApi);
         // Fetch data from the API
         const response = await fetch(userDataApi, {
           method: "GET",

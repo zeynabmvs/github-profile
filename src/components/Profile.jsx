@@ -24,6 +24,7 @@ function Profile({ username }) {
         );
         const userDataApi = "https://api.github.com/users/" + username;
 
+        console.log("api call:", userDataApi);
         // Fetch data from the API
         const response = await fetch(userDataApi, {
           method: "GET",
@@ -45,6 +46,8 @@ function Profile({ username }) {
     // Call the fetch data function
     fetchData();
   }, [username]); // Empty dependency array means this effect runs once after the initial render
+  
+  console.log("isLoading ", isLoading)
 
   if (!userData) {
     return <div className="text-center p-8">No data available</div>;
