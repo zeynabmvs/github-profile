@@ -1,36 +1,9 @@
-import { useState, useEffect } from "react";
-import { CLIENT_ID, CLIENT_SECRET } from "../constants";
 import Skeleton from "react-loading-skeleton";
+import useFetch from "../hooks/useFetch";
+
 
 function Profile({ username }) {
-  const [userData, setUserData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState();
-
-  useEffect(() => {
-    setIsLoading(true);
-    const headers = new Headers();
-    headers.append(
-      "Authorization",
-      `Basic ${btoa(`${CLIENT_ID}:${CLIENT_SECRET}`)}`
-    );
-
-    const url = `https://api.github.com/users/${username}`;
-    console.log("api call:", url);
-
-    fetch(url, { method: "GET", headers: headers })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Failed to fetch data");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setUserData(data);
-        setIsLoading(false);
-      })
-      .catch(setError);
-  }, [username]);
+  const {isLoading, data:userData, error} = useFetch(`https://api.github.com/users/${username}`)
 
   return (
     <div className="profile lg:-mt-11 pb-9">

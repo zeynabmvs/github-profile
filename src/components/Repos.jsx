@@ -1,54 +1,12 @@
-import { useEffect, useState } from "react";
-import { CLIENT_ID, CLIENT_SECRET } from "../constants";
 import Card from "./Card";
+import useFetch from "../hooks/useFetch";
 
 function Repos({ username }) {
-  const [userRepos, setUserRepos] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    // Define an asynchronous function to fetch data
-    async function fetchData() {
-      try {
-        setIsLoading(true);
-
-        const headers = new Headers();
-        headers.append(
-          "Authorization",
-          `Basic ${btoa(`${CLIENT_ID}:${CLIENT_SECRET}`)}`
-        );
-
-        const url = `https://api.github.com/users/${username}/repos`;
-
-        console.log("api call:", url);
-
-        // Fetch data from the API
-        const response = await fetch(url, {
-          method: "GET",
-          headers: headers,
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
-        }
-
-        // Parse the JSON response
-        const jsonData = await response.json();
-
-        // Update the state with the fetched data
-        setUserRepos(jsonData);
-        setIsLoading(false);
-      } catch (error) {
-        // Handle errors
-        setError(error.message);
-        setIsLoading(false);
-      }
-    }
-
-    // Call the fetchData function
-    fetchData();
-  }, [username]); // Empty dependency array means this effect runs once after the initial render
+  const {
+    isLoading,
+    data: userRepos,
+    error,
+  } = useFetch(`https://api.github.com/users/${username}/repos`);
 
   return (
     <div className="flex flex-col">
