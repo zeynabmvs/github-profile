@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { ENV, CLIENT_ID, CLIENT_SECRET } from "../constants";
-import { user_repos } from "../data";
+import { CLIENT_ID, CLIENT_SECRET } from "../constants";
 import Card from "./Card";
 
 function Repos({ username }) {
@@ -11,27 +10,21 @@ function Repos({ username }) {
   useEffect(() => {
     // Define an asynchronous function to fetch data
     async function fetchData() {
-      // Check if running on localhost
-      if (ENV === "local") {
-        setUserRepos(user_repos); // Load data from local file
-        setIsLoading(false);
-        return;
-      }
-
       try {
+        setIsLoading(true);
+
         const headers = new Headers();
         headers.append(
           "Authorization",
-          `Basic ${btoa(`${import.meta.env.CLIENT_ID}:${CLIENT_SECRET}`)}`
+          `Basic ${btoa(`${CLIENT_ID}:${CLIENT_SECRET}`)}`
         );
 
-        const apiRepoData =
-          "https://api.github.com/users/" + username + "/repos";
+        const url = `https://api.github.com/users/${username}/repos`;
 
-        console.log("api call:", apiRepoData);
-      
+        console.log("api call:", url);
+
         // Fetch data from the API
-        const response = await fetch(apiRepoData, {
+        const response = await fetch(url, {
           method: "GET",
           headers: headers,
         });
@@ -57,29 +50,19 @@ function Repos({ username }) {
     fetchData();
   }, [username]); // Empty dependency array means this effect runs once after the initial render
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  if (!userRepos) {
-    return <div>No data available</div>;
-  }
-
-  // return four latest repos
-  const repos = userRepos.slice(-4);
-
-  const cards = repos.map((repo, index) => (
-    <Card repo={repo} key={index} isLoading={isLoading} />
-  ));
-  const user_repos_url = "https://github.com/" + username;
-
   return (
     <div className="flex flex-col">
-      <div className="cards flex flex-col lg:grid grid-cols-2 gap-8 mb-12">
-        {cards}
-      </div>
+      {error && <p>Error: {error.message}</p>}
+      {userRepos && (
+        <div className="cards flex flex-col lg:grid grid-cols-2 gap-8 mb-12">
+          {userRepos.slice(-4).map((repo, index) => (
+            <Card repo={repo} key={index} isLoading={isLoading} />
+          ))}
+        </div>
+      )}
+
       <a
-        href={user_repos_url}
+        href={`https://github.com/${username}`}
         className="text-base text-slate-200 text-center mb-20 hover:underline"
         target="_blank"
       >

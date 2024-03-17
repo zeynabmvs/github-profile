@@ -1,15 +1,10 @@
 import { useEffect, useState } from "react";
-import { found_users } from "../data";
 import SearchResults from "./SearchResults";
 import debounce from "lodash/debounce";
 import searchIcon from "../assets/icons/Search.svg";
-import { ENV, CLIENT_ID, CLIENT_SECRET } from "../constants";
+import { CLIENT_ID, CLIENT_SECRET } from "../constants";
 
-function Header({
-  searchQuery,
-  onSearchQueryChange,
-  onProfileClick,
-}) {
+function Header({ searchQuery, onSearchQueryChange, onProfileClick }) {
   const [foundUsers, setFoundUsers] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -22,12 +17,7 @@ function Header({
 
   async function fetchData() {
     if (searchQuery) {
-      if (ENV === "local") {
-        setFoundUsers(found_users.items); // Load data from local file, there is no search in this case
-        setIsLoading(false);
-        return;
-      }
-
+      setIsLoading(true);
       try {
         const headers = new Headers();
         headers.append(
@@ -35,18 +25,16 @@ function Header({
           `Basic ${btoa(`${CLIENT_ID}:${CLIENT_SECRET}`)}`
         );
 
-        const userDataApi =
-          "https://api.github.com/search/users?q=" + searchQuery;
+        const url = `https://api.github.com/search/users?q=${searchQuery}`;
 
-        console.log("api call:", userDataApi);
+        console.log("api call:", url);
         // Fetch data from the API
-        const response = await fetch(userDataApi, {
+        const response = await fetch(url, {
           method: "GET",
           headers: headers,
         });
         if (!response.ok) {
-          // throw new Error("Failed to fetch data");
-          console.log(response)
+          throw new Error("Failed to fetch data");
         }
 
         // Parse the json response
