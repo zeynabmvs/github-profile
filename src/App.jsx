@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./App.css";
 import Profile from "./components/Profile";
 import Repos from "./components/Repos";
 import Header from "./components/Header";

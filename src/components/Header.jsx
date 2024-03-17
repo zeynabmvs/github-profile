@@ -45,7 +45,8 @@ function Header({
           headers: headers,
         });
         if (!response.ok) {
-          throw new Error("Failed to fetch data");
+          // throw new Error("Failed to fetch data");
+          console.log(response)
         }
 
         // Parse the json response
