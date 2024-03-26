@@ -14,8 +14,6 @@ function useFetch(url) {
       `Basic ${btoa(`${CLIENT_ID}:${CLIENT_SECRET}`)}`
     );
 
-    console.log("api call:", url);
-
     fetch(url, { method: "GET", headers: headers })
       .then((res) => {
         if (!res.ok) {

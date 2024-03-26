@@ -27,7 +27,6 @@ function Header({ searchQuery, onSearchQueryChange, onProfileClick }) {
 
         const url = `https://api.github.com/search/users?q=${searchQuery}`;
 
-        console.log("api call:", url);
         // Fetch data from the API
         const response = await fetch(url, {
           method: "GET",
