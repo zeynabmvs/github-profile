@@ -32,7 +32,7 @@ function Card({ repo, isLoading }) {
         <>
           <p className="pb-5 text-slate-200">{repo.description}</p>
 
-          <div className="flex flex-row gap-4 items-center ">
+          <div className="flex flex-row gap-4 items-center flex-wrap">
             {license}
             <div className="flex gap-2 text-slate-200">
               <img src={nestingIcon} />

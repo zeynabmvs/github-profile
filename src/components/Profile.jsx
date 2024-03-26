@@ -1,16 +1,19 @@
 import Skeleton from "react-loading-skeleton";
 import useFetch from "../hooks/useFetch";
 
-
 function Profile({ username }) {
-  const {isLoading, data:userData, error} = useFetch(`https://api.github.com/users/${username}`)
+  const {
+    isLoading,
+    data: userData,
+    error,
+  } = useFetch(`https://api.github.com/users/${username}`);
 
   return (
     <div className="profile lg:-mt-11 pb-9">
       {error && <p>Error: {error.message}</p>}
       {userData && (
         <>
-          <div className="flex lg:items-end gap-6 xl:gap-12 pb-9 lg:pb-5">
+          <div className="flex flex-col sm:flex-row items-start lg:items-end gap-6 xl:gap-12 pb-9 lg:pb-5">
             <div className="bg-gray p-2 rounded-2xl -mt-11 lg:mt-0">
               {isLoading ? (
                 <Skeleton
@@ -28,14 +31,14 @@ function Profile({ username }) {
               )}
             </div>
             <div className="flex pt-3 lg:pb-3 lg:pt-0 gap-5 flex-col lg:flex-row items-start lg:items-center">
-              <div className="bg-darkgray rounded-xl text-slate-300 h-[52px] py-2 px-5 lg:px-9 flex items-center justify-start">
+              <div className="bg-darkgray rounded-xl text-slate-300 h-[52px] py-2 px-5 xl:px-9 flex items-center justify-start">
                 Followers
                 <span className="block h-9 w-px mx-5 lg:mx-9 bg-slate-200"></span>
                 <span className="text-slate-100">
                   {isLoading ? "-" : userData.followers}
                 </span>
               </div>
-              <div className="bg-darkgray rounded-xl text-slate-300 h-[52px] py-2 px-5 lg:px-9 flex items-center justify-start">
+              <div className="bg-darkgray rounded-xl text-slate-300 h-[52px] py-2 px-5 xl:px-9 flex items-center justify-start">
                 Following
                 <span className="block h-9 w-px mx-5 lg:mx-9 bg-slate-200"></span>
                 <span className="text-slate-100">
@@ -43,7 +46,7 @@ function Profile({ username }) {
                 </span>
               </div>
 
-              <div className="bg-darkgray rounded-xl text-slate-300 h-[52px] py-2 px-5 lg:px-9 flex items-center justify-start">
+              <div className="bg-darkgray rounded-xl text-slate-300 h-[52px] py-2 px-5 xl:px-9 flex items-center justify-start">
                 Location
                 <span className="block h-9 w-px mx-5 lg:mx-9 bg-slate-200"></span>
                 <span className="text-slate-100">
