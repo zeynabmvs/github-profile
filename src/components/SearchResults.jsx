@@ -10,7 +10,7 @@ function SearchResults({ foundUsers, isLoading, onProfileClick, searchQuery }) {
   };
 
   if (foundUsers && searchQuery) {
-    searchResult = foundUsers.slice(-5).map((foundUser, index) => (
+    searchResult = foundUsers.slice(0, 5).map((foundUser, index) => (
       <li key={index} className="flex pb-2 gap-2">
         {isLoading ? (
           <Skeleton circle width={72} height={72} />
