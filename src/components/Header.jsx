@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SearchResults from "./SearchResults";
 import debounce from "lodash/debounce";
 import searchIcon from "../assets/icons/Search.svg";
@@ -7,6 +7,21 @@ import { CLIENT_ID, CLIENT_SECRET } from "../constants";
 function Header({ searchQuery, onSearchQueryChange, onProfileClick }) {
   const [foundUsers, setFoundUsers] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [open, setOpen] = useState(false);
+  const resultsRef = useRef(null);
+
+  const handleClickOutside = (e) => {
+    if (!resultsRef.current.contains(e.target)) {
+      setOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside, true);
+
+    return () =>
+      document.removeEventListener("click", handleClickOutside, true);
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -41,6 +56,7 @@ function Header({ searchQuery, onSearchQueryChange, onProfileClick }) {
 
         // Update the state with fetched data
         setFoundUsers(jsonData.items);
+        setOpen(true);
         setIsLoading(false);
       } catch (error) {
         // Handle Errors
@@ -65,7 +81,7 @@ function Header({ searchQuery, onSearchQueryChange, onProfileClick }) {
       id="header"
       className="h-[240px] w-full bg-center bg-cover bg-no-repeat bg-[url('./assets/images/hero-image-github-profile.png')] flex justify-center"
     >
-      <div>
+      <div ref={resultsRef}>
         <form onSubmit={handleSubmit} className="relative mt-8 mb-2 self-start">
           <span className="absolute top-4 left-5">
             <img src={searchIcon} />
@@ -78,12 +94,19 @@ function Header({ searchQuery, onSearchQueryChange, onProfileClick }) {
             className="bg-gray text-slate-100 placeholder-slate-300 p-4 pl-12 rounded-xl w-[300px] md:w-[484px] before:content-[{{}}]"
           ></input>
         </form>
-        <SearchResults
-          foundUsers={foundUsers}
-          isLoading={isLoading}
-          onProfileClick={onProfileClick}
-          searchQuery={searchQuery}
-        />
+        {open && (
+          <div
+            id="search-result-container"
+            className={open ? "active" : "inactive"}
+          >
+            <SearchResults
+              foundUsers={foundUsers}
+              isLoading={isLoading}
+              onProfileClick={onProfileClick}
+              searchQuery={searchQuery}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
