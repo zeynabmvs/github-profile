@@ -1,10 +1,14 @@
 # GitHub Profile Viewer
 
-GitHub Profile Viewer is a single-page application built with React that allows users to view GitHub profiles and repositories.
+**GitHub Profile Viewer** is a sleek, single-page web application that allows users to explore GitHub profiles effortlessly. Simply enter a GitHub username, and the app fetches and displays the user's profile details, including repositories, followers, and more. Built with modern web technologies, it provides a seamless and responsive experience for discovering GitHub profiles.
 
 ## Live site
 
 https://github-profile-olive-phi.vercel.app/
+
+## Screenshots
+![Screenshot](./screenshot.jpg)  
+*Fully responsive single page app.*
 
 ## Features
 
