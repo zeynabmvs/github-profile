@@ -67,6 +67,6 @@ https://github-profile-olive-phi.vercel.app/
 
 Contributions are welcome! Feel free to open issues or submit pull requests.
 
-## License
+## Credit
 
-This project is licensed under the MIT License
+The **GitHub Profile Viewr** challenge is part of the [DevChallenges](https://devchallenges.io/) platform, which provides real-world coding challenges to help developers improve their skills. The goal of this challenge is to build a responsive GitHub profile page using HTML, CSS, and JavaScript (or any framework/library of your choice).
